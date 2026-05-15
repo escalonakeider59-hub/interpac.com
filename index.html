@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Pagos - INTERPAC</title>
+    <style>
+        :root { --primary: #0056b3; --whatsapp: #25d366; --bg: #f4f7f6; --dark: #333; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); display: flex; justify-content: center; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 480px; }
+        h2 { color: var(--primary); text-align: center; margin-bottom: 5px; }
+        p.subtitle { text-align: center; font-size: 14px; color: #666; margin-bottom: 20px; }
+        
+        /* Sección de Cuentas Bancarias */
+        .metodos-pago { background: #eef6ff; border-radius: 10px; padding: 15px; margin-bottom: 25px; border: 1px solid #d1e7ff; }
+        .metodos-pago h3 { margin: 0 0 10px 0; font-size: 16px; color: var(--primary); display: flex; align-items: center; }
+        .cuenta-item { font-size: 14px; line-height: 1.6; color: var(--dark); margin-bottom: 10px; }
+        .cuenta-item strong { color: #000; }
+
+        /* Formulario */
+        label { display: block; margin-top: 15px; font-weight: bold; font-size: 14px; color: var(--dark); }
+        input, select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .btn-whatsapp { width: 100%; padding: 15px; background-color: var(--whatsapp); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 17px; margin-top: 25px; transition: 0.3s; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
+        .btn-whatsapp:hover { background-color: #128c7e; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>INTERPAC</h2>
+    <p class="subtitle">Gestión de Pagos y Servicios</p>
+    
+    <!-- DATOS DE PAGO -->
+    <div class="metodos-pago">
+        <h3>💳 Datos para Transferencia / Pago Móvil</h3>
+        <div class="cuenta-item">
+            <strong>Banco:</strong> [Nombre del Banco]<br>
+            <strong>Cédula/RIF:</strong> [Tu Documento]<br>
+            <strong>Teléfono:</strong> [Tu Teléfono de Pago Móvil]<br>
+            <strong>Monto Mensual:</strong> $25 (Tasa BCV)
+        </div>
+        <p style="font-size: 12px; color: #555; margin: 0;">* Una vez realizado el pago, llena el formulario abajo.</p>
+    </div>
+
+    <!-- FORMULARIO DE REPORTE -->
+    <form id="pagoForm">
+        <label>Nombre del Cliente</label>
+        <input type="text" id="nombre" placeholder="Nombre completo" required>
+
+        <label>Sector / Comunidad</label>
+        <select id="sector" required>
+            <option value="">Seleccione su ubicación</option>
+            <option value="Belén Gamelotal">Belén Gamelotal</option>
+            <option value="Belén la Vega">Belén la Vega</option>
+            <option value="Otro">Otro sector</option>
+        </select>
+
+        <label>Plan de Internet</label>
+        <select id="plan" required>
+            <option value="25 Mbps">25 Mbps</option>
+            <option value="50 Mbps">50 Mbps</option>
+            <option value="100 Mbps">100 Mbps</option>
+        </select>
+
+        <label>Número de Referencia</label>
+        <input type="text" id="referencia" placeholder="Ej: 123456" required>
+
+        <button type="button" class="btn-whatsapp" onclick="enviarAWhatsApp()">
+            Reportar Pago vía WhatsApp
+        </button>
+    </form>
+</div>
+
+<script>
+    function enviarAWhatsApp() {
+        const nombre = document.getElementById('nombre').value;
+        const sector = document.getElementById('sector').value;
+        const plan = document.getElementById('plan').value;
+        const referencia = document.getElementById('referencia').value;
+        
+        const telefono = "584142460333"; 
+
+        if(!nombre || !sector || !referencia) {
+            alert("Por favor, rellena los datos de tu reporte.");
+            return;
+        }
+
+        const mensaje = "Hola INTERPAC, he realizado mi pago:\n\n" +
+                        "*Cliente:* " + nombre + "\n" +
+                        "*Sector:* " + sector + "\n" +
+                        "*Plan:* " + plan + "\n" +
+                        "*Referencia:* " + referencia + "\n" +
+                        "*Monto:* $25";
+
+        const url = "https://wa.me/" + telefono + "?text=" + encodeURIComponent(mensaje);
+        window.open(url, '_blank');
+    }
+</script>
+
+</body>
+</html>
